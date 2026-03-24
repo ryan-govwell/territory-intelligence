@@ -25,7 +25,6 @@ function unlock() {
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   setHeaderMeta();
-  initViewToggle();
   buildNav();
   selectRep(Object.keys(REPS)[0]);
 }
@@ -597,18 +596,23 @@ function renderTeamView() {
 }
 
 // ─────────────────────────────────────────────
-//  View toggle
+//  View toggle (global so onclick attributes work)
 // ─────────────────────────────────────────────
-function initViewToggle() {
-  document.querySelectorAll('#view-toggle .view-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const view = btn.dataset.view;
-      document.querySelectorAll('#view-toggle .view-btn').forEach(b => b.classList.toggle('active', b === btn));
-      document.getElementById('rep-view').style.display  = view === 'rep'  ? 'block' : 'none';
-      document.getElementById('team-view').style.display = view === 'team' ? 'block' : 'none';
-      if (view === 'team') renderTeamView();
-    });
-  });
+function switchView(view) {
+  document.getElementById('btn-rep').classList.toggle('active',  view === 'rep');
+  document.getElementById('btn-team').classList.toggle('active', view === 'team');
+  document.getElementById('rep-view').style.display  = view === 'rep'  ? 'block' : 'none';
+  document.getElementById('team-view').style.display = view === 'team' ? 'block' : 'none';
+  if (view === 'team') {
+    try {
+      renderTeamView();
+    } catch (err) {
+      document.getElementById('team-content').innerHTML =
+        `<div style="padding:40px;font-family:'DM Mono',monospace;font-size:12px;color:#E24B4A">
+           Render error: ${err.message}<br><pre>${err.stack}</pre>
+         </div>`;
+    }
+  }
 }
 
 // ─────────────────────────────────────────────
