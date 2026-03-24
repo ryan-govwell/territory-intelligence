@@ -103,6 +103,28 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text
 .outcome-bar { display: flex; height: 18px; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
 .outcome-legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: var(--text-2); font-family: 'DM Mono', monospace; }
 
+/* ── Outcome chips ── */
+.outcome-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; }
+.outcome-chip {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 8px; border-radius: 6px; background: var(--surface2);
+}
+.outcome-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.outcome-chip-name { flex: 1; font-size: 11px; color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.outcome-chip-count { font-size: 12px; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--text); }
+.outcome-chip-pct { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-3); min-width: 28px; text-align: right; }
+
+/* ── Tier stats ── */
+.tier-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tier-stat {
+  padding: 10px 12px; border-radius: 8px; background: var(--surface2);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.tier-stat-bar { height: 3px; border-radius: 2px; margin-bottom: 4px; }
+.tier-stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); font-family: 'DM Mono', monospace; }
+.tier-stat-pts { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+.tier-stat-pct { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-2); }
+
 /* ── Map ── */
 #map-container svg { display: block; width: 100%; }
 .map-legend { display: flex; gap: 14px; margin-top: 10px; font-size: 11px; color: var(--text-2); font-family: 'DM Mono', monospace; flex-wrap: wrap; }

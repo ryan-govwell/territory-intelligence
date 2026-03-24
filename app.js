@@ -178,30 +178,51 @@ function renderRep(r) {
       <div>
         <div class="card" style="margin-bottom:14px">
           <div class="card-title">Outcome mix</div>
-          <div class="outcome-bar">
+          <div class="outcome-bar" style="height:22px;margin-bottom:14px">
             ${outcomeOrder
               .filter(k => r.outcomes[k])
               .map(k => `<div style="width:${(r.outcomes[k] / totalMtgs * 100).toFixed(1)}%;background:${outcomeColors[k]}" title="${k}: ${r.outcomes[k]}"></div>`)
               .join('')}
           </div>
-          <div class="outcome-legend">
+          <div class="outcome-chips">
             ${outcomeOrder
               .filter(k => r.outcomes[k])
-              .map(k => `<span><span class="tier-swatch" style="background:${outcomeColors[k]}"></span>${k} ${r.outcomes[k]}</span>`)
+              .map(k => `
+                <div class="outcome-chip">
+                  <span class="outcome-dot" style="background:${outcomeColors[k]}"></span>
+                  <span class="outcome-chip-name">${k}</span>
+                  <span class="outcome-chip-count">${r.outcomes[k]}</span>
+                  <span class="outcome-chip-pct">${(r.outcomes[k] / totalMtgs * 100).toFixed(0)}%</span>
+                </div>`)
               .join('')}
           </div>
         </div>
         <div class="card">
           <div class="card-title">Account tier mix — pts booked</div>
-          <div class="tier-bar">
+          <div class="tier-bar" style="margin-bottom:14px">
             <div class="tier-seg" style="width:${t1p}%;background:#1D9E75"></div>
             <div class="tier-seg" style="width:${t2p}%;background:#9FE1CB"></div>
             <div class="tier-seg" style="width:${t3p}%;background:#E1F5EE;border:1px solid #9FE1CB"></div>
           </div>
-          <div class="tier-legend">
-            <span><span class="tier-swatch" style="background:#1D9E75"></span>T1 ${t1.toFixed(1)} (${t1p}%)</span>
-            <span><span class="tier-swatch" style="background:#9FE1CB"></span>T2 ${t2.toFixed(1)} (${t2p}%)</span>
-            <span><span class="tier-swatch" style="background:#E1F5EE;border:1px solid #9FE1CB"></span>T3 ${t3.toFixed(1)} (${t3p}%)</span>
+          <div class="tier-stats">
+            <div class="tier-stat">
+              <div class="tier-stat-bar" style="background:#1D9E75"></div>
+              <div class="tier-stat-label">Tier 1</div>
+              <div class="tier-stat-pts">${t1.toFixed(1)}</div>
+              <div class="tier-stat-pct">${t1p}%</div>
+            </div>
+            <div class="tier-stat">
+              <div class="tier-stat-bar" style="background:#9FE1CB"></div>
+              <div class="tier-stat-label">Tier 2</div>
+              <div class="tier-stat-pts">${t2.toFixed(1)}</div>
+              <div class="tier-stat-pct">${t2p}%</div>
+            </div>
+            <div class="tier-stat">
+              <div class="tier-stat-bar" style="background:#D4EEE6;border:1px solid #9FE1CB"></div>
+              <div class="tier-stat-label">Tier 3</div>
+              <div class="tier-stat-pts">${t3.toFixed(1)}</div>
+              <div class="tier-stat-pct">${t3p}%</div>
+            </div>
           </div>
         </div>
       </div>
