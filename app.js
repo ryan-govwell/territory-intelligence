@@ -114,7 +114,7 @@ function renderRep(r) {
   const t3p = (t3 / tierTotal * 100).toFixed(0);
 
   // Outcomes
-  const outcomeOrder  = ['SQO', 'Further Disco Required', 'Pending', 'Rescheduling', 'Cancellation', 'No Show', 'Disqualified'];
+  const outcomeOrder  = ['SQO', 'Further Disco Required', 'Rescheduling', 'Cancellation', 'No Show', 'Disqualified'];
   const outcomeColors = {
     'SQO':                    '#1D9E75',
     'Further Disco Required': '#7F77DD',

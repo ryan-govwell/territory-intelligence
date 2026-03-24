@@ -52,11 +52,11 @@ const STATE_ABBR_TO_FULL = {
 const REPS = {
   "Ryan Minter": {
     name: "Ryan Minter", start: "Jun 15, 2025", active_months: 9.3,
-    meetings: 194, meetings_per_mo: 20.9,
+    meetings: 193, meetings_per_mo: 20.8,
     total_pts: 203.625, total_pts_per_mo: 21.98,
     sqo_pts: 73.5, sqo_pts_per_mo: 7.93,
     pts_conv: 36.1,
-    outcomes: { SQO: 69, Cancellation: 44, "No Show": 33, Disqualified: 31, "Further Disco Required": 15, Rescheduling: 1, Pending: 1 },
+    outcomes: { SQO: 69, Cancellation: 44, "No Show": 33, Disqualified: 31, "Further Disco Required": 15, Rescheduling: 1 },
     states: [
       { state: "CA", meetings: 29, total_pts: 37.0,    sqo_pts: 24.0,  sqo_count: 18, disq: 3,  cancel: 4,  noshow: 2,  conv: 64.9 },
       { state: "TX", meetings: 24, total_pts: 26.875,  sqo_pts: 8.375, sqo_count: 8,  disq: 7,  cancel: 4,  noshow: 2,  conv: 31.2 },
@@ -327,11 +327,11 @@ const REPS = {
 
   "Catherine Silvestri": {
     name: "Catherine Silvestri", start: "Jan 20, 2026", active_months: 2.1,
-    meetings: 40, meetings_per_mo: 19.3,
+    meetings: 38, meetings_per_mo: 18.1,
     total_pts: 38.75, total_pts_per_mo: 18.72,
     sqo_pts: 13.875, sqo_pts_per_mo: 6.7,
     pts_conv: 35.8,
-    outcomes: { SQO: 14, Disqualified: 12, "Further Disco Required": 6, Cancellation: 4, "No Show": 2, Pending: 2 },
+    outcomes: { SQO: 14, Disqualified: 12, "Further Disco Required": 6, Cancellation: 4, "No Show": 2 },
     states: [
       { state: "CA", meetings: 15, total_pts: 17.0,  sqo_pts: 5.75,  sqo_count: 5, disq: 4, cancel: 1, noshow: 1, conv: 33.8 },
       { state: "UT", meetings: 13, total_pts: 12.25, sqo_pts: 4.75,  sqo_count: 5, disq: 6, cancel: 2, noshow: 0, conv: 38.8 },
