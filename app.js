@@ -22,8 +22,8 @@ function initAuth() {
 }
 
 function unlock() {
-  document.getElementById('auth-gate').classList.add('hidden');
-  document.getElementById('app').style.display = '';
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
   setHeaderMeta();
   buildNav();
   selectRep(Object.keys(REPS)[0]);
