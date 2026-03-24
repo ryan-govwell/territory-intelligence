@@ -1,4 +1,35 @@
 // ─────────────────────────────────────────────
+//  Auth
+// ─────────────────────────────────────────────
+const PASSWORD = 'permitplease';
+
+function initAuth() {
+  if (sessionStorage.getItem('ti_auth') === '1') {
+    unlock();
+    return;
+  }
+  document.getElementById('auth-form').addEventListener('submit', e => {
+    e.preventDefault();
+    if (document.getElementById('auth-input').value === PASSWORD) {
+      sessionStorage.setItem('ti_auth', '1');
+      unlock();
+    } else {
+      document.getElementById('auth-error').style.display = 'block';
+      document.getElementById('auth-input').value = '';
+      document.getElementById('auth-input').focus();
+    }
+  });
+}
+
+function unlock() {
+  document.getElementById('auth-gate').classList.add('hidden');
+  document.getElementById('app').style.display = '';
+  setHeaderMeta();
+  buildNav();
+  selectRep(Object.keys(REPS)[0]);
+}
+
+// ─────────────────────────────────────────────
 //  Helpers
 // ─────────────────────────────────────────────
 function convColor(v) {
@@ -373,6 +404,4 @@ function setHeaderMeta() {
 // ─────────────────────────────────────────────
 //  Init
 // ─────────────────────────────────────────────
-setHeaderMeta();
-buildNav();
-selectRep(Object.keys(REPS)[0]);
+initAuth();

@@ -9,24 +9,41 @@
 </head>
 <body>
 
-<header class="site-header">
-  <div>
-    <div class="logo">GovWell</div>
-    <div class="title-block">
-      <h1>Territory Intelligence</h1>
-      <p id="report-subtitle">BDM Performance Report</p>
-    </div>
+<div id="auth-gate">
+  <div class="auth-box">
+    <div class="auth-logo">GovWell</div>
+    <h2 class="auth-title">Territory Intelligence</h2>
+    <p class="auth-sub">Enter password to continue</p>
+    <form id="auth-form">
+      <input id="auth-input" type="password" placeholder="Password" autocomplete="current-password" />
+      <button type="submit">Enter</button>
+    </form>
+    <p id="auth-error">Incorrect password</p>
   </div>
-  <div class="last-updated" id="report-meta"></div>
-</header>
+</div>
 
-<nav class="rep-nav" id="rep-nav"></nav>
+<div id="app" style="display:none">
 
-<main class="main" id="main-content"></main>
+  <header class="site-header">
+    <div>
+      <div class="logo">GovWell</div>
+      <div class="title-block">
+        <h1>Territory Intelligence</h1>
+        <p id="report-subtitle">BDM Performance Report</p>
+      </div>
+    </div>
+    <div class="last-updated" id="report-meta"></div>
+  </header>
 
-<footer class="footer">
-  Points methodology: Tier 1 = 1.5 pts &nbsp;·&nbsp; Tier 2 = 1.0 pt &nbsp;·&nbsp; Tier 3 = 0.75 pts &nbsp;·&nbsp; Conf splits weighted at 50% of tier value &nbsp;·&nbsp; SQO pts = sum of points for meetings that converted to SQO &nbsp;·&nbsp; Pts conversion = SQO pts ÷ total pts booked
-</footer>
+  <nav class="rep-nav" id="rep-nav"></nav>
+
+  <main class="main" id="main-content"></main>
+
+  <footer class="footer">
+    Points methodology: Tier 1 = 1.5 pts &nbsp;·&nbsp; Tier 2 = 1.0 pt &nbsp;·&nbsp; Tier 3 = 0.75 pts &nbsp;·&nbsp; Conf splits weighted at 50% of tier value &nbsp;·&nbsp; SQO pts = sum of points for meetings that converted to SQO &nbsp;·&nbsp; Pts conversion = SQO pts ÷ total pts booked
+  </footer>
+
+</div> <!-- /#app -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>

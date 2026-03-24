@@ -118,6 +118,43 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text
 /* ── Footer ── */
 .footer { padding: 0 40px 30px; font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; border-top: 1px solid var(--border); margin: 0 40px; padding-top: 20px; }
 
+/* ── Auth gate ── */
+#auth-gate {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+#auth-gate.hidden { display: none; }
+.auth-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 40px 36px;
+  width: 100%; max-width: 360px; text-align: center;
+}
+.auth-logo {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-2); margin-bottom: 16px;
+}
+.auth-title { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+.auth-sub { font-size: 12px; color: var(--text-2); font-family: 'DM Mono', monospace; margin-bottom: 24px; }
+#auth-form { display: flex; flex-direction: column; gap: 10px; }
+#auth-input {
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  padding: 10px 14px; border-radius: var(--radius);
+  border: 1px solid var(--border-strong); background: var(--bg);
+  color: var(--text); outline: none; text-align: center; letter-spacing: 0.1em;
+}
+#auth-input:focus { border-color: var(--green); }
+#auth-form button {
+  font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 10px; border-radius: var(--radius);
+  background: var(--text); color: #fff; border: none; cursor: pointer;
+}
+#auth-form button:hover { background: #333; }
+#auth-error {
+  margin-top: 12px; font-size: 12px; color: var(--red);
+  font-family: 'DM Mono', monospace; display: none;
+}
+
 @media (max-width: 900px) {
   .site-header, .rep-nav, .main { padding-left: 20px; padding-right: 20px; }
   .kpi-row { grid-template-columns: repeat(3, minmax(0,1fr)); }
