@@ -35,9 +35,19 @@
     <div class="last-updated" id="report-meta"></div>
   </header>
 
-  <nav class="rep-nav" id="rep-nav"></nav>
+  <div class="view-toggle" id="view-toggle">
+    <button class="view-btn active" data-view="rep">Rep View</button>
+    <button class="view-btn" data-view="team">Team Overview</button>
+  </div>
 
-  <main class="main" id="main-content"></main>
+  <div id="rep-view">
+    <nav class="rep-nav" id="rep-nav"></nav>
+    <main class="main" id="main-content"></main>
+  </div>
+
+  <div id="team-view" style="display:none">
+    <main class="main" id="team-content"></main>
+  </div>
 
   <footer class="footer">
     Points methodology: Tier 1 = 1.5 pts &nbsp;·&nbsp; Tier 2 = 1.0 pt &nbsp;·&nbsp; Tier 3 = 0.75 pts &nbsp;·&nbsp; Conf splits weighted at 50% of tier value &nbsp;·&nbsp; SQO pts = sum of points for meetings that converted to SQO &nbsp;·&nbsp; Pts conversion = SQO pts ÷ total pts booked

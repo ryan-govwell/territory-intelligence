@@ -25,6 +25,7 @@ function unlock() {
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   setHeaderMeta();
+  initViewToggle();
   buildNav();
   selectRep(Object.keys(REPS)[0]);
 }
@@ -410,6 +411,204 @@ function renderMap(r) {
       drawMap(us);
     });
   }
+}
+
+// ─────────────────────────────────────────────
+//  Team view — period stats
+// ─────────────────────────────────────────────
+function computePeriodStats(startMonth) {
+  let meetings = 0, total_pts = 0, sqo_pts = 0;
+  const repStats = [];
+  Object.values(REPS).forEach(r => {
+    const months = r.monthly.filter(m => m.month >= startMonth);
+    const rm = months.reduce(
+      (s, x) => ({ meetings: s.meetings + x.meetings, total_pts: s.total_pts + x.total_pts, sqo_pts: s.sqo_pts + x.sqo_pts }),
+      { meetings: 0, total_pts: 0, sqo_pts: 0 }
+    );
+    meetings  += rm.meetings;
+    total_pts += rm.total_pts;
+    sqo_pts   += rm.sqo_pts;
+    if (rm.meetings > 0) {
+      repStats.push({ name: r.name, ...rm, conv: rm.total_pts > 0 ? rm.sqo_pts / rm.total_pts * 100 : 0 });
+    }
+  });
+  return {
+    meetings, total_pts, sqo_pts,
+    conv: total_pts > 0 ? sqo_pts / total_pts * 100 : 0,
+    repStats: repStats.sort((a, b) => b.sqo_pts - a.sqo_pts),
+  };
+}
+
+function renderTeamView() {
+  const periods = PERIODS.map(pd => {
+    const stats = computePeriodStats(pd.start);
+    return {
+      ...pd, ...stats,
+      dials_per_mtg:      (pd.dials / stats.meetings).toFixed(0),
+      mtg_rate:           (stats.meetings / pd.dials * 100).toFixed(2),
+      dials_per_sqo_pt:   (pd.dials / stats.sqo_pts).toFixed(0),
+      sqo_pts_per_100:    (stats.sqo_pts / pd.dials * 100).toFixed(2),
+    };
+  });
+
+  const p1 = periods[0], p2 = periods[1];
+  const mtr_delta  = ((p2.mtg_rate        - p1.mtg_rate)        / p1.mtg_rate        * 100).toFixed(0);
+  const dpm_delta  = ((p1.dials_per_mtg   - p2.dials_per_mtg)   / p1.dials_per_mtg   * 100).toFixed(0);
+  const dps_delta  = ((p1.dials_per_sqo_pt - p2.dials_per_sqo_pt) / p1.dials_per_sqo_pt * 100).toFixed(0);
+
+  // Merge rep stats for comparison table
+  const repMap = {};
+  p1.repStats.forEach(r => { repMap[r.name] = { name: r.name, p1: r, p2: null }; });
+  p2.repStats.forEach(r => {
+    if (repMap[r.name]) repMap[r.name].p2 = r;
+    else repMap[r.name] = { name: r.name, p1: null, p2: r };
+  });
+  const reps = Object.values(repMap).sort((a, b) => (b.p2?.sqo_pts || 0) - (a.p2?.sqo_pts || 0));
+
+  const periodColors = ['#1a1a18', 'var(--green)'];
+
+  const html = `
+    <div class="row-2" style="margin-bottom:16px">
+      ${periods.map((pd, i) => `
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+            <span style="font-size:11px;font-weight:700;padding:3px 12px;border-radius:100px;background:${periodColors[i]};color:#fff;font-family:'DM Mono',monospace;letter-spacing:0.06em">${pd.label}</span>
+            <span style="font-size:12px;color:var(--text-2);font-family:'DM Mono',monospace">${pd.range}</span>
+          </div>
+          <div class="period-kpis">
+            <div class="kpi">
+              <div class="kpi-label">Dials made</div>
+              <div class="kpi-value">${pd.dials.toLocaleString()}</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Meetings booked</div>
+              <div class="kpi-value">${pd.meetings}</div>
+              <div class="kpi-sub">${pd.mtg_rate}% of dials</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Dials / meeting</div>
+              <div class="kpi-value ${i===1 ? 'good' : ''}">${pd.dials_per_mtg}</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Total pts</div>
+              <div class="kpi-value">${pd.total_pts.toFixed(1)}</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">SQO pts</div>
+              <div class="kpi-value">${pd.sqo_pts.toFixed(1)}</div>
+              <div class="kpi-sub">${pd.sqo_pts_per_100} per 100 dials</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Pts conversion</div>
+              <div class="kpi-value ${pd.conv>=50?'good':pd.conv>=35?'warn':'bad'}">${pd.conv.toFixed(1)}%</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Dials / SQO pt</div>
+              <div class="kpi-value ${i===1 ? 'good' : ''}">${pd.dials_per_sqo_pt}</div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="card full">
+      <div class="card-title">Dial efficiency — Period 1 vs Period 2</div>
+      <div class="eff-grid">
+        <div class="eff-item">
+          <div class="eff-label">Meetings per 100 dials</div>
+          <div class="eff-vals">
+            <div class="eff-p1">
+              <span class="eff-period-tag">P1</span>
+              <span class="eff-num">${p1.mtg_rate}</span>
+            </div>
+            <div class="eff-arrow-col">→</div>
+            <div class="eff-p2">
+              <span class="eff-period-tag" style="background:var(--green)">P2</span>
+              <span class="eff-num">${p2.mtg_rate}</span>
+            </div>
+          </div>
+          <div class="eff-delta">+${mtr_delta}% more meetings per dial</div>
+        </div>
+        <div class="eff-item">
+          <div class="eff-label">Dials needed per meeting</div>
+          <div class="eff-vals">
+            <div class="eff-p1">
+              <span class="eff-period-tag">P1</span>
+              <span class="eff-num">${p1.dials_per_mtg}</span>
+            </div>
+            <div class="eff-arrow-col">→</div>
+            <div class="eff-p2">
+              <span class="eff-period-tag" style="background:var(--green)">P2</span>
+              <span class="eff-num">${p2.dials_per_mtg}</span>
+            </div>
+          </div>
+          <div class="eff-delta">↓ ${dpm_delta}% fewer dials per meeting</div>
+        </div>
+        <div class="eff-item">
+          <div class="eff-label">Dials needed per SQO pt</div>
+          <div class="eff-vals">
+            <div class="eff-p1">
+              <span class="eff-period-tag">P1</span>
+              <span class="eff-num">${p1.dials_per_sqo_pt}</span>
+            </div>
+            <div class="eff-arrow-col">→</div>
+            <div class="eff-p2">
+              <span class="eff-period-tag" style="background:var(--green)">P2</span>
+              <span class="eff-num">${p2.dials_per_sqo_pt}</span>
+            </div>
+          </div>
+          <div class="eff-delta">↓ ${dps_delta}% fewer dials per SQO pt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card full">
+      <div class="card-title">Rep breakdown — P1 (all time) vs P2 (Oct 1, 2025 – now)</div>
+      <table class="data-table">
+        <tr>
+          <th style="text-align:left">Rep</th>
+          <th>P2 Meetings</th>
+          <th>P2 Total pts</th>
+          <th>P2 SQO pts</th>
+          <th>P2 Conv</th>
+          <th>P1 Meetings</th>
+          <th>P1 SQO pts</th>
+          <th>P1 Conv</th>
+        </tr>
+        ${reps.map(r => {
+          const c2 = r.p2 ? convColor(r.p2.conv) : null;
+          const c1 = r.p1 ? convColor(r.p1.conv) : null;
+          return `<tr>
+            <td>${r.name}</td>
+            <td>${r.p2 ? r.p2.meetings   : '—'}</td>
+            <td>${r.p2 ? r.p2.total_pts.toFixed(1) : '—'}</td>
+            <td>${r.p2 ? r.p2.sqo_pts.toFixed(1)   : '—'}</td>
+            <td>${r.p2 ? `<span class="pill" style="background:${c2.bg};color:${c2.color}">${r.p2.conv.toFixed(1)}%</span>` : '—'}</td>
+            <td>${r.p1 ? r.p1.meetings   : '—'}</td>
+            <td>${r.p1 ? r.p1.sqo_pts.toFixed(1)   : '—'}</td>
+            <td>${r.p1 ? `<span class="pill" style="background:${c1.bg};color:${c1.color}">${r.p1.conv.toFixed(1)}%</span>` : '—'}</td>
+          </tr>`;
+        }).join('')}
+      </table>
+    </div>
+  `;
+
+  document.getElementById('team-content').innerHTML = html;
+}
+
+// ─────────────────────────────────────────────
+//  View toggle
+// ─────────────────────────────────────────────
+function initViewToggle() {
+  document.getElementById('view-toggle').addEventListener('click', e => {
+    const btn = e.target.closest('.view-btn');
+    if (!btn) return;
+    const view = btn.dataset.view;
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === btn));
+    document.getElementById('rep-view').style.display  = view === 'rep'  ? 'block' : 'none';
+    document.getElementById('team-view').style.display = view === 'team' ? 'block' : 'none';
+    if (view === 'team') renderTeamView();
+  });
 }
 
 // ─────────────────────────────────────────────

@@ -47,6 +47,25 @@ const STATE_ABBR_TO_FULL = {
 };
 
 // ─────────────────────────────────────────────
+//  Period definitions for team view
+//  Update dials and start each reporting cycle
+// ─────────────────────────────────────────────
+const PERIODS = [
+  {
+    label: 'Period 1',
+    range: 'Jan 1, 2025 – Mar 24, 2026',
+    start: '2025-01',
+    dials: 69140,
+  },
+  {
+    label: 'Period 2',
+    range: 'Oct 1, 2025 – Mar 24, 2026',
+    start: '2025-10',
+    dials: 33242,
+  },
+];
+
+// ─────────────────────────────────────────────
 //  Rep data — replace/extend when updating
 // ─────────────────────────────────────────────
 const REPS = {

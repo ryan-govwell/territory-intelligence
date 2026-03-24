@@ -140,6 +140,38 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text
 /* ── Footer ── */
 .footer { padding: 0 40px 30px; font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; border-top: 1px solid var(--border); margin: 0 40px; padding-top: 20px; }
 
+/* ── View toggle ── */
+.view-toggle {
+  padding: 16px 40px 0;
+  display: flex; gap: 6px;
+}
+.view-btn {
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
+  padding: 7px 18px; border-radius: 100px;
+  border: 1px solid var(--border-strong); background: var(--surface);
+  cursor: pointer; color: var(--text-2); transition: all 0.15s ease;
+  letter-spacing: 0.02em;
+}
+.view-btn:hover { background: var(--surface2); color: var(--text); }
+.view-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+/* ── Period KPIs ── */
+.period-kpis { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+
+/* ── Efficiency comparison ── */
+.eff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.eff-item {
+  background: var(--surface2); border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.eff-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); font-family: 'DM Mono', monospace; margin-bottom: 14px; }
+.eff-vals { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.eff-p1, .eff-p2 { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.eff-period-tag { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #1a1a18; color: #fff; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+.eff-num { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; color: var(--text); }
+.eff-arrow-col { font-size: 18px; color: var(--text-3); flex: 1; text-align: center; }
+.eff-delta { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--green); font-weight: 500; }
+
 /* ── Auth gate ── */
 #auth-gate {
   position: fixed; inset: 0; background: var(--bg);
