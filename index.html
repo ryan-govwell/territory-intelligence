@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovWell — Territory Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo">GovWell</div>
+    <div class="title-block">
+      <h1>Territory Intelligence</h1>
+      <p id="report-subtitle">BDM Performance Report</p>
+    </div>
+  </div>
+  <div class="last-updated" id="report-meta"></div>
+</header>
+
+<nav class="rep-nav" id="rep-nav"></nav>
+
+<main class="main" id="main-content"></main>
+
+<footer class="footer">
+  Points methodology: Tier 1 = 1.5 pts &nbsp;·&nbsp; Tier 2 = 1.0 pt &nbsp;·&nbsp; Tier 3 = 0.75 pts &nbsp;·&nbsp; Conf splits weighted at 50% of tier value &nbsp;·&nbsp; SQO pts = sum of points for meetings that converted to SQO &nbsp;·&nbsp; Pts conversion = SQO pts ÷ total pts booked
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
