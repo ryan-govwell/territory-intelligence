@@ -600,14 +600,14 @@ function renderTeamView() {
 //  View toggle
 // ─────────────────────────────────────────────
 function initViewToggle() {
-  document.getElementById('view-toggle').addEventListener('click', e => {
-    const btn = e.target.closest('.view-btn');
-    if (!btn) return;
-    const view = btn.dataset.view;
-    document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === btn));
-    document.getElementById('rep-view').style.display  = view === 'rep'  ? 'block' : 'none';
-    document.getElementById('team-view').style.display = view === 'team' ? 'block' : 'none';
-    if (view === 'team') renderTeamView();
+  document.querySelectorAll('#view-toggle .view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.dataset.view;
+      document.querySelectorAll('#view-toggle .view-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('rep-view').style.display  = view === 'rep'  ? 'block' : 'none';
+      document.getElementById('team-view').style.display = view === 'team' ? 'block' : 'none';
+      if (view === 'team') renderTeamView();
+    });
   });
 }
 
