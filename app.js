@@ -439,6 +439,8 @@ function computePeriodStats(startMonth) {
 }
 
 function renderTeamView() {
+  document.getElementById('team-content').innerHTML = '<div style="padding:60px;font-size:24px;font-family:Syne,sans-serif;font-weight:700">Team view is working ✓</div>';
+  return;
   const periods = PERIODS.map(pd => {
     const stats = computePeriodStats(pd.start);
     return {
